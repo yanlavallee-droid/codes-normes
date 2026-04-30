@@ -1,353 +1,129 @@
-index.html
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Assistant Codes & Normes</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Codes &amp; Normes</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f5f4f0; --surface: #ffffff; --surface2: #f0eeea;
+  --border: #e0ddd6; --border2: #ccc9c0; --text: #1a1a18;
+  --text2: #6b6860; --text3: #9b9890; --accent: #1a5c9e;
+  --accent-light: #deeaf7; --green: #0a6648; --green-bg: #ddf0e8;
+  --chip-bg: #deeaf7; --chip-text: #0d3d6e; --chip-border: #7ab3e0;
+}
+@media (prefers-color-scheme: dark) {
   :root {
-    --bg: #f5f4f0;
-    --surface: #ffffff;
-    --surface2: #f0eeea;
-    --border: #e0ddd6;
-    --border2: #ccc9c0;
-    --text: #1a1a18;
-    --text2: #6b6860;
-    --text3: #9b9890;
-    --accent: #1a5c9e;
-    --accent-light: #deeaf7;
-    --accent-text: #0d3d6e;
-    --green: #0a6648;
-    --green-light: #ddf0e8;
-    --chip-on-bg: #deeaf7;
-    --chip-on-text: #1a5c9e;
-    --chip-on-border: #7ab3e0;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08);
+    --bg: #171715; --surface: #222220; --surface2: #1c1c1a;
+    --border: #333330; --border2: #444440; --text: #f0ede6;
+    --text2: #a0998e; --text3: #6a6560; --accent: #5a9fd4;
+    --accent-light: #1a2d40; --green: #3aaa7e; --green-bg: #0a2820;
+    --chip-bg: #1a2d40; --chip-text: #7ab8e8; --chip-border: #3a6d9e;
   }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #171715;
-      --surface: #222220;
-      --surface2: #1c1c1a;
-      --border: #333330;
-      --border2: #444440;
-      --text: #f0ede6;
-      --text2: #a0998e;
-      --text3: #6a6560;
-      --accent: #5a9fd4;
-      --accent-light: #1a2d40;
-      --accent-text: #9ccbee;
-      --green: #3aaa7e;
-      --green-light: #0a2820;
-      --chip-on-bg: #1a2d40;
-      --chip-on-text: #7ab8e8;
-      --chip-on-border: #3a6d9e;
-    }
-  }
-
-  body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  /* ── HEADER ── */
-  header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-    flex-shrink: 0;
-    gap: 16px;
-  }
-  .logo { display: flex; align-items: center; gap: 10px; }
-  .logo-icon {
-    width: 32px; height: 32px; border-radius: 8px;
-    background: var(--accent); color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; flex-shrink: 0;
-  }
-  .logo-text { font-size: 15px; font-weight: 600; letter-spacing: -0.3px; }
-  .logo-sub { font-size: 11px; color: var(--text2); margin-top: 1px; }
-
-  .api-bar { display: flex; align-items: center; gap: 8px; }
-  .api-bar label { font-size: 12px; color: var(--text2); white-space: nowrap; }
-  .api-bar input {
-    width: 260px; padding: 6px 10px; font-size: 12px;
-    border: 1px solid var(--border2); border-radius: 6px;
-    background: var(--surface2); color: var(--text);
-    font-family: 'Courier New', monospace;
-  }
-  .api-bar input:focus { outline: none; border-color: var(--accent); }
-  .status-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--border2); transition: background 0.3s;
-  }
-  .status-dot.ok { background: var(--green); }
-  .status-dot.err { background: #c0392b; }
-
-  /* ── DOCS BAR ── */
-  .docs-bar {
-    background: var(--surface2);
-    border-bottom: 1px solid var(--border);
-    padding: 8px 24px;
-    display: flex; flex-wrap: wrap; gap: 6px;
-    flex-shrink: 0;
-  }
-  .docs-label { font-size: 11px; color: var(--text3); align-self: center; margin-right: 4px; }
-  .chip {
-    font-size: 11px; padding: 4px 10px; border-radius: 14px;
-    border: 1px solid var(--border2); color: var(--text2);
-    background: var(--surface); cursor: pointer;
-    transition: all 0.15s; white-space: nowrap; user-select: none;
-  }
-  .chip:hover { border-color: var(--accent); color: var(--accent); }
-  .chip.on {
-    background: var(--chip-on-bg); color: var(--chip-on-text);
-    border-color: var(--chip-on-border); font-weight: 500;
-  }
-
-  /* ── MAIN ── */
-  .main { display: flex; flex: 1; overflow: hidden; }
-
-  /* ── SIDEBAR ── */
-  .sidebar {
-    width: 220px; flex-shrink: 0;
-    background: var(--surface);
-    border-right: 1px solid var(--border);
-    display: flex; flex-direction: column;
-    overflow: hidden;
-  }
-  .sidebar-title {
-    padding: 14px 16px 8px;
-    font-size: 11px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.8px; color: var(--text3);
-  }
-  .shortcuts { overflow-y: auto; flex: 1; padding: 0 8px 12px; }
-  .shortcut-btn {
-    width: 100%; text-align: left; padding: 8px 10px;
-    font-size: 12px; line-height: 1.4; color: var(--text2);
-    background: none; border: none; border-radius: 6px;
-    cursor: pointer; transition: background 0.12s; display: block; margin-bottom: 2px;
-  }
-  .shortcut-btn:hover { background: var(--surface2); color: var(--text); }
-  .shortcut-tag {
-    display: inline-block; font-size: 10px; padding: 1px 5px;
-    border-radius: 4px; background: var(--accent-light);
-    color: var(--accent-text); margin-bottom: 3px; font-weight: 500;
-  }
-
-  /* ── CHAT ── */
-  .chat-wrap { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-  .messages {
-    flex: 1; overflow-y: auto; padding: 24px;
-    display: flex; flex-direction: column; gap: 16px;
-    scroll-behavior: smooth;
-  }
-
-  .welcome {
-    margin: auto; max-width: 440px; text-align: center;
-    padding: 40px 20px;
-  }
-  .welcome-icon {
-    width: 56px; height: 56px; border-radius: 14px;
-    background: var(--accent-light); color: var(--accent);
-    font-size: 26px; display: flex; align-items: center;
-    justify-content: center; margin: 0 auto 16px;
-  }
-  .welcome h2 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
-  .welcome p { font-size: 13px; color: var(--text2); line-height: 1.6; }
-
-  .msg { display: flex; gap: 12px; max-width: 820px; }
-  .msg.user { flex-direction: row-reverse; margin-left: auto; }
-  .msg.assistant { margin-right: auto; }
-
-  .avatar {
-    width: 32px; height: 32px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 600; flex-shrink: 0; margin-top: 2px;
-  }
-  .av-user { background: var(--accent); color: #fff; }
-  .av-bot { background: var(--green-light); color: var(--green); font-size: 15px; }
-
-  .bubble {
-    padding: 12px 16px; font-size: 13.5px; line-height: 1.7;
-    max-width: 680px;
-  }
-  .msg.user .bubble {
-    background: var(--accent); color: #fff;
-    border-radius: 18px 18px 4px 18px;
-  }
-  .msg.assistant .bubble {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px 18px 18px 18px;
-    color: var(--text);
-    box-shadow: var(--shadow);
-  }
-  .bubble p { margin-bottom: 8px; }
-  .bubble p:last-child { margin-bottom: 0; }
-  .bubble strong { font-weight: 600; }
-  .bubble code {
-    background: var(--surface2); padding: 1px 5px;
-    border-radius: 4px; font-size: 12px; font-family: 'Courier New', monospace;
-  }
-
-  .source-badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    font-size: 11px; padding: 2px 8px; border-radius: 10px;
-    background: var(--green-light); color: var(--green);
-    margin-top: 8px; font-weight: 500;
-  }
-
-  .typing { display: flex; gap: 5px; align-items: center; padding: 4px 0; }
-  .typing span {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--text3); animation: bop 1.2s ease-in-out infinite;
-  }
-  .typing span:nth-child(2) { animation-delay: 0.18s; }
-  .typing span:nth-child(3) { animation-delay: 0.36s; }
-  @keyframes bop { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-7px)} }
-
-  /* ── INPUT ── */
-  .input-zone {
-    padding: 16px 24px 20px;
-    border-top: 1px solid var(--border);
-    background: var(--surface);
-  }
-  .input-row { display: flex; gap: 10px; align-items: flex-end; }
-  .input-row textarea {
-    flex: 1; padding: 10px 14px; font-size: 14px;
-    border: 1px solid var(--border2); border-radius: 10px;
-    resize: none; background: var(--surface2); color: var(--text);
-    font-family: inherit; min-height: 42px; max-height: 120px;
-    line-height: 1.5; transition: border-color 0.15s;
-  }
-  .input-row textarea:focus { outline: none; border-color: var(--accent); }
-  .send-btn {
-    padding: 10px 18px; background: var(--accent); color: #fff;
-    border: none; border-radius: 10px; font-size: 14px; font-weight: 500;
-    cursor: pointer; height: 42px; transition: opacity 0.15s, transform 0.1s;
-    white-space: nowrap;
-  }
-  .send-btn:hover { opacity: 0.9; }
-  .send-btn:active { transform: scale(0.97); }
-  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .hint { font-size: 11px; color: var(--text3); margin-top: 8px; }
-
-  /* ── CLEAR BTN ── */
-  .clear-btn {
-    background: none; border: 1px solid var(--border);
-    color: var(--text2); border-radius: 6px; padding: 4px 10px;
-    font-size: 11px; cursor: pointer; margin-left: auto; display: block;
-    margin-bottom: 8px; transition: background 0.15s;
-  }
-  .clear-btn:hover { background: var(--surface2); }
+}
+html, body { height: 100%; height: 100dvh; font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
+.app { display: flex; flex-direction: column; height: 100%; height: 100dvh; max-width: 680px; margin: 0 auto; background: var(--surface); }
+.hdr { flex-shrink: 0; background: var(--surface); border-bottom: 1px solid var(--border); padding: 8px 14px; padding-top: max(8px, env(safe-area-inset-top)); }
+.hdr-top { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+.hdr-icon { width: 28px; height: 28px; border-radius: 7px; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.hdr-title { font-size: 14px; font-weight: 600; flex: 1; }
+.key-wrap { display: flex; align-items: center; gap: 7px; }
+.key-wrap input { flex: 1; font-size: 13px; padding: 7px 11px; border: 1px solid var(--border2); border-radius: 8px; background: var(--surface2); color: var(--text); font-family: monospace; min-width: 0; -webkit-appearance: none; }
+.key-wrap input:focus { outline: none; border-color: var(--accent); }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--border2); flex-shrink: 0; transition: background 0.3s; }
+.dot.ok { background: #1D9E75; }
+.dot.err { background: #E24B4A; }
+.chips { flex-shrink: 0; display: flex; gap: 6px; padding: 7px 14px; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; border-bottom: 1px solid var(--border); background: var(--surface2); }
+.chips::-webkit-scrollbar { display: none; }
+.chip { display: inline-block; font-size: 12px; padding: 5px 11px; border-radius: 14px; border: 1px solid var(--border2); color: var(--text2); background: var(--surface); cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; transition: all 0.15s; white-space: nowrap; }
+.chip.on { background: var(--chip-bg); color: var(--chip-text); border-color: var(--chip-border); font-weight: 500; }
+.msgs { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; -webkit-overflow-scrolling: touch; }
+.welcome { text-align: center; margin: auto; padding: 20px 10px; }
+.welcome-ico { font-size: 32px; margin-bottom: 10px; }
+.welcome h2 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+.welcome p { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 14px; }
+.qs { display: flex; flex-direction: column; gap: 7px; }
+.q { text-align: left; padding: 10px 13px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; background: var(--surface2); color: var(--text); cursor: pointer; line-height: 1.4; -webkit-tap-highlight-color: transparent; }
+.q:active { background: var(--border); }
+.qtag { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; background: var(--accent-light); color: var(--chip-text); margin-bottom: 3px; font-weight: 600; }
+.msg { display: flex; gap: 8px; }
+.msg.user { flex-direction: row-reverse; }
+.av { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; margin-top: 2px; }
+.av-u { background: var(--accent); color: #fff; }
+.av-b { background: var(--green-bg); color: var(--green); }
+.bub { max-width: 86%; padding: 10px 14px; font-size: 14px; line-height: 1.65; }
+.msg.user .bub { background: var(--accent); color: #fff; border-radius: 18px 18px 4px 18px; }
+.msg.assistant .bub { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px 18px 18px 18px; }
+.typing { display: flex; gap: 4px; align-items: center; padding: 2px 0; }
+.typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--text3); animation: bp 1.2s infinite; }
+.typing span:nth-child(2) { animation-delay: 0.18s; }
+.typing span:nth-child(3) { animation-delay: 0.36s; }
+@keyframes bp { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-7px)} }
+.inp-zone { flex-shrink: 0; padding: 10px 14px; padding-bottom: max(14px, env(safe-area-inset-bottom)); border-top: 1px solid var(--border); background: var(--surface); }
+.inp-row { display: flex; gap: 8px; align-items: flex-end; }
+.inp-row textarea { flex: 1; padding: 11px 14px; font-size: 16px; border: 1px solid var(--border2); border-radius: 12px; resize: none; background: var(--surface2); color: var(--text); font-family: inherit; min-height: 46px; max-height: 140px; line-height: 1.5; -webkit-appearance: none; }
+.inp-row textarea:focus { outline: none; border-color: var(--accent); }
+.send { padding: 0 18px; background: var(--accent); color: #fff; border: none; border-radius: 12px; font-size: 18px; font-weight: 700; cursor: pointer; height: 46px; flex-shrink: 0; -webkit-tap-highlight-color: transparent; transition: opacity 0.15s; }
+.send:disabled { opacity: 0.4; }
+.send:active { opacity: 0.75; }
+.bottom-row { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
+.hint { font-size: 11px; color: var(--text3); }
+.clear { font-size: 11px; color: var(--text3); background: none; border: none; cursor: pointer; padding: 2px 0; -webkit-tap-highlight-color: transparent; }
 </style>
 </head>
 <body>
-
-<header>
-  <div class="logo">
-    <div class="logo-icon">📋</div>
-    <div>
-      <div class="logo-text">Assistant Codes & Normes</div>
-      <div class="logo-sub">Québec / Canada — Bâtiment & Industrie</div>
+<div class="app">
+  <div class="hdr">
+    <div class="hdr-top">
+      <div class="hdr-icon">📋</div>
+      <div class="hdr-title">Codes &amp; Normes</div>
+    </div>
+    <div class="key-wrap">
+      <input type="password" id="apiKey" placeholder="Clé API : sk-ant-..." oninput="checkKey()">
+      <div class="dot" id="dot"></div>
     </div>
   </div>
-  <div class="api-bar">
-    <label for="apiKey">Clé API Anthropic :</label>
-    <input type="password" id="apiKey" placeholder="sk-ant-api03-..." oninput="checkKey()" />
-    <div class="status-dot" id="dot" title="État de la clé API"></div>
+
+  <div class="chips">
+    <span class="chip on" data-doc="CSA B51">CSA B51</span>
+    <span class="chip on" data-doc="CSA B149.1">B149.1 Gaz</span>
+    <span class="chip on" data-doc="B139">B139 Mazout</span>
+    <span class="chip on" data-doc="B64">B64 Antiref.</span>
+    <span class="chip on" data-doc="ANSI Z358">Z358 Douches</span>
+    <span class="chip on" data-doc="CNP 2005">Plomberie</span>
+    <span class="chip on" data-doc="3650-900">3650-900</span>
+    <span class="chip on" data-doc="1784-000">1784-000</span>
+    <span class="chip on" data-doc="MMF M6">MMF M6</span>
+    <span class="chip on" data-doc="Hydronique">Hydronique</span>
+    <span class="chip on" data-doc="Surveillance">Surveillance</span>
   </div>
-</header>
 
-<div class="docs-bar">
-  <span class="docs-label">Filtrer :</span>
-  <span class="chip on" data-doc="CSA B51">CSA B51 — Chaudières</span>
-  <span class="chip on" data-doc="CSA B149.1">CSA B149.1 — Gaz naturel</span>
-  <span class="chip on" data-doc="B139">B139 — Mazout</span>
-  <span class="chip on" data-doc="B64">B64 — Antirefoulement</span>
-  <span class="chip on" data-doc="ANSI Z358">ANSI Z358 — Douches sécurité</span>
-  <span class="chip on" data-doc="CNP 2005">Code plomberie 2005</span>
-  <span class="chip on" data-doc="3650-900">Norme 3650-900</span>
-  <span class="chip on" data-doc="1784-000">Norme 1784-000</span>
-  <span class="chip on" data-doc="MMF M6">Règlement MMF Chap. M6</span>
-  <span class="chip on" data-doc="Hydronique">Chauffage hydronique</span>
-  <span class="chip on" data-doc="Surveillance">Classification surveillance</span>
-</div>
-
-<div class="main">
-  <aside class="sidebar">
-    <div class="sidebar-title">Questions rapides</div>
-    <div class="shortcuts" id="shortcuts">
-      <button class="shortcut-btn" onclick="quick(this)">
-        <div class="shortcut-tag">CSA B51</div><br>
-        Exigences chaudières sous pression — catégories et inspection
-      </button>
-      <button class="shortcut-btn" onclick="quick(this)">
-        <div class="shortcut-tag">CSA B51</div><br>
-        Classes de surveillance — différences entre classe A, B, C
-      </button>
-      <button class="shortcut-btn" onclick="quick(this)">
-        <div class="shortcut-tag">B149.1</div><br>
-        Distance minimale pour installation gaz naturel
-      </button>
-      <button class="shortcut-btn" onclick="quick(this)">
-        <div class="shortcut-tag">B139</div><br>
-        Exigences réservoir mazout — capacité et installation
-      </button>
-      <button class="shortcut-btn" onclick="quick(this)">
-        <div class="shortcut-tag">ANSI Z358</div><br>
-        Distance et débit requis pour douches oculaires
-      </button>
-      <button class="shortcut-btn" onclick="quick(this)">
-        <div class="shortcut-tag">B64</div><br>
-        Types de dispositifs antirefoulement — quand utiliser chaque type?
-      </button>
-      <button class="shortcut-btn" onclick="quick(this)">
-        <div class="shortcut-tag">CNP 2005</div><br>
-        Pentes minimales pour les drains sanitaires
-      </button>
-      <button class="shortcut-btn" onclick="quick(this)">
-        <div class="shortcut-tag">Hydronique</div><br>
-        Exigences vase d'expansion — système eau chaude
-      </button>
-      <button class="shortcut-btn" onclick="quick(this)">
-        <div class="shortcut-tag">MMF M6</div><br>
-        Obligations inspection — appareils sous pression au Québec
-      </button>
-    </div>
-  </aside>
-
-  <div class="chat-wrap">
-    <div class="messages" id="messages">
-      <div class="welcome" id="welcome">
-        <div class="welcome-icon">⚙️</div>
-        <h2>Prêt à répondre</h2>
-        <p>Entrez votre clé API Anthropic en haut à droite, puis posez votre question sur vos codes et normes techniques. Utilisez les filtres pour cibler les documents pertinents.</p>
+  <div class="msgs" id="msgs">
+    <div class="welcome" id="welcome">
+      <div class="welcome-ico">📋</div>
+      <h2>Assistant codes &amp; normes</h2>
+      <p>Entrez votre clé API ci-dessus, puis posez votre question.<br>Glissez les filtres ← → pour choisir les codes.</p>
+      <div class="qs">
+        <button class="q" onclick="useQ(this)"><span class="qtag">CSA B51</span><br>Exigences chaudières sous pression — catégories et inspection</button>
+        <button class="q" onclick="useQ(this)"><span class="qtag">Z358</span><br>Distance et débit requis pour les douches oculaires</button>
+        <button class="q" onclick="useQ(this)"><span class="qtag">CSA B51</span><br>Classes de surveillance A, B, C — différences</button>
+        <button class="q" onclick="useQ(this)"><span class="qtag">B149.1</span><br>Distances minimales installation gaz naturel</button>
+        <button class="q" onclick="useQ(this)"><span class="qtag">CNP 2005</span><br>Pentes minimales pour les drains sanitaires</button>
       </div>
     </div>
+  </div>
 
-    <div class="input-zone">
-      <button class="clear-btn" onclick="clearChat()">Effacer la conversation</button>
-      <div class="input-row">
-        <textarea id="inp" rows="1" placeholder="Posez votre question sur les codes et normes..."
-          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"
-          oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
-        <button class="send-btn" id="btn" onclick="send()">Envoyer</button>
-      </div>
-      <div class="hint">Entrée pour envoyer · Maj+Entrée pour nouvelle ligne</div>
+  <div class="inp-zone">
+    <div class="inp-row">
+      <textarea id="inp" rows="1" placeholder="Votre question sur les codes..."
+        oninput="autoH(this)"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea>
+      <button class="send" id="btn" onclick="send()">↑</button>
+    </div>
+    <div class="bottom-row">
+      <span class="hint">Glissez les filtres pour choisir les codes</span>
+      <button class="clear" onclick="clearChat()">Effacer</button>
     </div>
   </div>
 </div>
@@ -359,151 +135,95 @@ const active = new Set(['CSA B51','CSA B149.1','B139','B64','ANSI Z358','CNP 200
 document.querySelectorAll('.chip').forEach(c => {
   c.addEventListener('click', () => {
     const d = c.dataset.doc;
-    if (active.has(d)) { active.delete(d); c.classList.remove('on'); }
-    else { active.add(d); c.classList.add('on'); }
+    active.has(d) ? (active.delete(d), c.classList.remove('on')) : (active.add(d), c.classList.add('on'));
   });
 });
 
 function checkKey() {
   const k = document.getElementById('apiKey').value.trim();
-  const dot = document.getElementById('dot');
-  dot.className = 'status-dot ' + (k.startsWith('sk-ant') ? 'ok' : k.length > 10 ? 'err' : '');
+  document.getElementById('dot').className = 'dot ' + (k.startsWith('sk-ant') ? 'ok' : k.length > 5 ? 'err' : '');
 }
 
-function quick(btn) {
-  const lines = btn.innerText.split('\n').filter(l => !l.includes('•') && l.trim());
-  const q = lines[lines.length - 1].trim();
-  document.getElementById('inp').value = q;
+function autoH(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 140) + 'px';
+}
+
+function useQ(btn) {
+  const lines = btn.innerText.split('\n');
+  document.getElementById('inp').value = lines[lines.length - 1].trim();
   send();
 }
 
 function clearChat() {
   history.length = 0;
-  const box = document.getElementById('messages');
-  box.innerHTML = `<div class="welcome" id="welcome">
-    <div class="welcome-icon">⚙️</div>
+  document.getElementById('msgs').innerHTML = `<div class="welcome" id="welcome">
+    <div class="welcome-ico">📋</div>
     <h2>Conversation effacée</h2>
     <p>Posez une nouvelle question sur vos codes et normes.</p>
   </div>`;
 }
 
-function addMsg(role, htmlContent) {
+function addMsg(role, html) {
   const w = document.getElementById('welcome');
   if (w) w.remove();
-  const box = document.getElementById('messages');
+  const box = document.getElementById('msgs');
   const d = document.createElement('div');
   d.className = 'msg ' + role;
-  const avClass = role === 'user' ? 'av-user' : 'av-bot';
-  const avContent = role === 'user' ? 'V' : '⚙';
-  d.innerHTML = `<div class="avatar ${avClass}">${avContent}</div><div class="bubble">${htmlContent}</div>`;
+  const isU = role === 'user';
+  d.innerHTML = `<div class="av ${isU?'av-u':'av-b'}">${isU?'V':'⚙'}</div><div class="bub">${html}</div>`;
   box.appendChild(d);
   box.scrollTop = box.scrollHeight;
-  return d.querySelector('.bubble');
-}
-
-function formatResponse(txt) {
-  return txt
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-    .replace(/`([^`]+)`/g,'<code>$1</code>')
-    .replace(/\n\n/g,'</p><p>')
-    .replace(/\n/g,'<br>');
 }
 
 async function send() {
   const inp = document.getElementById('inp');
   const btn = document.getElementById('btn');
-  const apiKey = document.getElementById('apiKey').value.trim();
+  const key = document.getElementById('apiKey').value.trim();
   const q = inp.value.trim();
-
   if (!q) return;
-  if (!apiKey) {
-    alert('Veuillez entrer votre clé API Anthropic en haut à droite.');
-    return;
-  }
+  if (!key) { alert('Entrez votre clé API Anthropic en haut.'); return; }
 
   inp.value = ''; inp.style.height = 'auto'; btn.disabled = true;
   addMsg('user', q.replace(/</g,'&lt;'));
   history.push({ role: 'user', content: q });
 
-  const typing = document.createElement('div');
-  typing.className = 'msg assistant';
-  typing.innerHTML = `<div class="avatar av-bot">⚙</div><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
-  document.getElementById('messages').appendChild(typing);
-  document.getElementById('messages').scrollTop = 99999;
+  const t = document.createElement('div');
+  t.className = 'msg assistant';
+  t.innerHTML = `<div class="av av-b">⚙</div><div class="bub"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  document.getElementById('msgs').appendChild(t);
+  document.getElementById('msgs').scrollTop = 99999;
 
   const docs = [...active].join(', ') || 'tous les documents';
-  const system = `Tu es un expert en codes et normes techniques pour le bâtiment et l'industrie au Québec/Canada.
-
-L'utilisateur a les documents suivants dans son projet :
-- CSA B51 (chaudières et appareils sous pression — éditions 2003, 2014, 2019)
-- CSA B149.1:2025 (installation du gaz naturel et du propane)
-- B139-2015 (installation des systèmes au mazout)
-- B64.10 (entretien et mise à l'essai des dispositifs antirefoulement)
-- ANSI/ISEA Z358.1-2014 (douches oculaires et douches de sécurité)
-- Code national de la plomberie — Canada 2005
-- Normes 1784-000 et 3650-900
-- Normes Z358 (version française)
-- Règlement MMF Chapitre M6 R.1
-- Guide systèmes de chauffage hydronique à eau chaude
-- Classification de la surveillance (appareils sous pression)
-
-Codes actifs pour cette question : ${docs}
-
-Instructions :
-- Réponds TOUJOURS en français
-- Sois précis et technique — cite le code applicable (ex. "CSA B51-19, article 4.3.2")
-- Si tu n'es pas certain d'un numéro d'article exact, dis-le clairement et indique la section générale
-- Ne fabrique jamais de références précises si tu n'es pas sûr
-- Si plusieurs codes s'appliquent, mentionne-les tous
-- Pour les exigences du Québec, note les différences avec les codes nationaux si applicable`;
+  const sys = `Tu es un expert en codes et normes techniques pour le bâtiment et l'industrie au Québec/Canada. Documents du projet : CSA B51 (chaudières et appareils sous pression, éditions 2003, 2014, 2019), CSA B149.1:2025 (installation du gaz naturel et propane), B139-2015 (systèmes au mazout), B64.10 (antirefoulement), ANSI/ISEA Z358.1-2014 (douches oculaires et sécurité), Code national de la plomberie 2005, normes 1784-000 et 3650-900, Règlement MMF Chapitre M6 R.1, guide systèmes chauffage hydronique eau chaude, classification de la surveillance. Codes actifs : ${docs}. Réponds en français, de façon précise et technique. Cite toujours le code applicable. Ne fabrique pas de numéros d'articles si tu n'es pas certain.`;
 
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
+        'x-api-key': key,
         'anthropic-version': '2023-06-01',
         'anthropic-dangerous-direct-browser-access': 'true'
       },
-      body: JSON.stringify({
-        model: 'claude-opus-4-5',
-        max_tokens: 1200,
-        system,
-        messages: history
-      })
+      body: JSON.stringify({ model: 'claude-opus-4-5', max_tokens: 1200, system: sys, messages: history })
     });
-
     const data = await res.json();
-    typing.remove();
-
+    t.remove();
     if (!res.ok) {
-      const errMsg = data.error?.message || `Erreur HTTP ${res.status}`;
-      addMsg('assistant', `<span style="color:#c0392b">⚠ ${errMsg}</span>`);
-      history.pop();
-      btn.disabled = false;
-      return;
+      addMsg('assistant', `<span style="color:#c0392b">⚠ ${data.error?.message || 'Erreur ' + res.status}</span>`);
+      history.pop(); btn.disabled = false; return;
     }
-
-    const txt = data.content?.[0]?.text || 'Aucune réponse reçue.';
+    const txt = data.content?.[0]?.text || '';
     history.push({ role: 'assistant', content: txt });
-
-    const sourcesUsed = [...active].filter(d => txt.includes(d.split(' ')[0]));
-    let html = `<p>${formatResponse(txt)}</p>`;
-    if (sourcesUsed.length > 0) {
-      html += sourcesUsed.map(s => `<span class="source-badge">📄 ${s}</span>`).join(' ');
-    }
-    addMsg('assistant', html);
-
+    addMsg('assistant', txt.replace(/</g,'&lt;').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'));
   } catch(e) {
-    typing.remove();
-    addMsg('assistant', `<span style="color:#c0392b">⚠ Erreur de connexion : ${e.message}</span>`);
+    t.remove();
+    addMsg('assistant', `<span style="color:#c0392b">⚠ Erreur : ${e.message}</span>`);
     history.pop();
   }
-
   btn.disabled = false;
-  document.getElementById('messages').scrollTop = 99999;
+  document.getElementById('msgs').scrollTop = 99999;
 }
 </script>
 </body>
