@@ -34,6 +34,7 @@ html, body { height: 100%; height: 100dvh; font-family: -apple-system, 'Segoe UI
 .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--border2); flex-shrink: 0; transition: background 0.3s; }
 .dot.ok { background: #1D9E75; }
 .dot.err { background: #E24B4A; }
+.saved-badge { font-size: 10px; color: #1D9E75; white-space: nowrap; }
 .chips { flex-shrink: 0; display: flex; gap: 6px; padding: 7px 14px; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; border-bottom: 1px solid var(--border); background: var(--surface2); }
 .chips::-webkit-scrollbar { display: none; }
 .chip { display: inline-block; font-size: 12px; padding: 5px 11px; border-radius: 14px; border: 1px solid var(--border2); color: var(--text2); background: var(--surface); cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; transition: all 0.15s; white-space: nowrap; }
@@ -81,6 +82,7 @@ html, body { height: 100%; height: 100dvh; font-family: -apple-system, 'Segoe UI
     </div>
     <div class="key-wrap">
       <input type="password" id="apiKey" placeholder="Clé API : sk-ant-..." oninput="checkKey()">
+      <span class="saved-badge" id="savedBadge" style="display:none">✓ sauvegardée</span>
       <div class="dot" id="dot"></div>
     </div>
   </div>
@@ -103,7 +105,7 @@ html, body { height: 100%; height: 100dvh; font-family: -apple-system, 'Segoe UI
     <div class="welcome" id="welcome">
       <div class="welcome-ico">📋</div>
       <h2>Assistant codes &amp; normes</h2>
-      <p>Entrez votre clé API ci-dessus, puis posez votre question.<br>Glissez les filtres ← → pour choisir les codes.</p>
+      <p>Entrez votre clé API ci-dessus — elle sera sauvegardée automatiquement.<br>Glissez les filtres ← → pour choisir les codes.</p>
       <div class="qs">
         <button class="q" onclick="useQ(this)"><span class="qtag">CSA B51</span><br>Exigences chaudières sous pression — catégories et inspection</button>
         <button class="q" onclick="useQ(this)"><span class="qtag">Z358</span><br>Distance et débit requis pour les douches oculaires</button>
@@ -141,8 +143,25 @@ document.querySelectorAll('.chip').forEach(c => {
 
 function checkKey() {
   const k = document.getElementById('apiKey').value.trim();
-  document.getElementById('dot').className = 'dot ' + (k.startsWith('sk-ant') ? 'ok' : k.length > 5 ? 'err' : '');
+  const isOk = k.startsWith('sk-ant');
+  document.getElementById('dot').className = 'dot ' + (isOk ? 'ok' : k.length > 5 ? 'err' : '');
+  if (isOk) {
+    try { localStorage.setItem('acn_key', k); } catch(e) {}
+    document.getElementById('savedBadge').style.display = 'inline';
+  } else {
+    document.getElementById('savedBadge').style.display = 'none';
+  }
 }
+
+(function loadSavedKey() {
+  try {
+    const saved = localStorage.getItem('acn_key');
+    if (saved) {
+      document.getElementById('apiKey').value = saved;
+      checkKey();
+    }
+  } catch(e) {}
+})();
 
 function autoH(el) {
   el.style.height = 'auto';
